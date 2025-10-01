@@ -40,11 +40,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	// updateUserById
-	public User updateUserById(Long id, User user) {
-		user.setUserid(id);
-		return userRepository.save(user);
+        public User updateUserById(Long id, User user) {
+                user.setUserid(id);
 
-	}
+                if (user.getPassword() != null) {
+                        String encodedUserPassword = passwordEncoder.encode(user.getPassword());
+                        user.setPassword(encodedUserPassword);
+                }
+
+                return userRepository.save(user);
+
+        }
 
 	// deleteUserById
 	public void deleteUserById(Long id) {
